@@ -1,7 +1,9 @@
-package com.nividimka.yandextranslater;
+package com.nividimka.yandextranslater.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.nividimka.yandextranslater.R;
 
 public class MainActivity extends AppCompatActivity {
 

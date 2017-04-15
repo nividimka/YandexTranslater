@@ -1,8 +1,6 @@
 package com.nividimka.yandextranslater.contants;
 
-/**
- * Created by Alex on 15.04.2017.
- */
+
 
 public class UrlConstants {
     public static final String BASE_URL = "https://translate.yandex.net/";

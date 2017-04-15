@@ -1,21 +1,26 @@
 package com.nividimka.yandextranslater.networking;
 
 import com.nividimka.yandextranslater.contants.UrlConstants;
-
-import org.json.JSONObject;
+import com.nividimka.yandextranslater.model.DetectLanguageRequest;
+import com.nividimka.yandextranslater.model.DetectLanguageResponse;
+import com.nividimka.yandextranslater.model.LanguageListRequest;
+import com.nividimka.yandextranslater.model.LanguageListResponse;
+import com.nividimka.yandextranslater.model.TranslateRequest;
+import com.nividimka.yandextranslater.model.TranslateResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface YandexTranslateService {
 
     @POST(UrlConstants.LANG_LIST)
-    Call<JSONObject> getLanguageList();
+    Call<LanguageListResponse> getLanguageList(@Body LanguageListRequest request);
 
     @POST(UrlConstants.LANG_DETECT)
-    Call<JSONObject> detectLanguage();
+    Call<DetectLanguageResponse> detectLanguage(@Body DetectLanguageRequest request);
 
     @POST(UrlConstants.LANG_TRANSLATE)
-    Call<JSONObject> translate();
+    Call<TranslateResponse> translate(@Body TranslateRequest request);
 
 }
