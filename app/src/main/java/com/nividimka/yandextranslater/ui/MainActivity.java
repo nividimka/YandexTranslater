@@ -10,9 +10,8 @@ import com.nividimka.yandextranslater.R;
 import com.nividimka.yandextranslater.ui.adapter.MainViewPagerAdapter;
 import com.nividimka.yandextranslater.ui.fragments.BookmarkFragment;
 import com.nividimka.yandextranslater.ui.fragments.SettingsFragment;
-import com.nividimka.yandextranslater.ui.fragments.TranslateFragment;
 
-public class MainActivity extends AppCompatActivity implements BookmarkFragment.OnFragmentInteractionListener,SettingsFragment.OnFragmentInteractionListener, TranslateFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements BookmarkFragment.OnFragmentInteractionListener,SettingsFragment.OnFragmentInteractionListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,14 +23,9 @@ public class MainActivity extends AppCompatActivity implements BookmarkFragment.
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-        tabLayout.setSelectedTabIndicatorHeight(4);
-
-        //set drawables for each tab
         tabLayout.getTabAt(0).setIcon(R.drawable.tab1_translate_icon);
         tabLayout.getTabAt(1).setIcon(R.drawable.tab2_bookmark_icon);
         tabLayout.getTabAt(2).setIcon(R.drawable.tab3_settings_icon);
-//        tabLayout.getTabAt(3).setIcon(R.mipmap.ic_launcher);
-//        tabLayout.getTabAt(4).setIcon(R.mipmap.ic_launcher_round);
     }
 
     @Override

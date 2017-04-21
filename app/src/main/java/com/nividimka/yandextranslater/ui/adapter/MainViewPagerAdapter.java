@@ -31,10 +31,6 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return " ";
-    }
 
     @Override
     public int getCount() {
