@@ -18,7 +18,8 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
+        // А здесь должны были быть UI тесты, но я не успел=)
+        // Работает, не трогай))
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.nividimka.yandextranslater", appContext.getPackageName());

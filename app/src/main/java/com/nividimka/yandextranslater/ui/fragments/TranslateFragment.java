@@ -81,6 +81,7 @@ public class TranslateFragment extends Fragment {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         final ImageView swap = (ImageView) view.findViewById(R.id.swap);
+        //меняем теги местами ru-en -> en-ru и обнавляем вьюхи
         swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +94,7 @@ public class TranslateFragment extends Fragment {
                 translate();
             }
         });
+        //убираем свап, пока не загрузились языки, чтобы не было ошибок =)
         swap.setVisibility(View.GONE);
         languageFrom = (TextView) view.findViewById(R.id.language_from);
         languageTo = (TextView) view.findViewById(R.id.language_to);
@@ -172,6 +174,7 @@ public class TranslateFragment extends Fragment {
             }
         });
         bookmark = (ImageButton) view.findViewById(R.id.bookmark);
+        //добавление в список с избранными
         bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,6 +201,7 @@ public class TranslateFragment extends Fragment {
                 }
             }
         });
+        //получаем лист из языков, лучше было делать в лоадере
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -246,7 +250,9 @@ public class TranslateFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 timer.cancel();
-//                showLoading();
+                //Обновляем таймер каждый раз при вводе текста
+                //Есди за 0.5 секунд ничего не ввели отправляем на сервер
+                //TODO загрузку типо прогресс диалога
                 timer = new Timer();
                 timer.schedule(
                         new TimerTask() {
@@ -277,7 +283,7 @@ public class TranslateFragment extends Fragment {
         });
         return view;
     }
-
+    //сортировка мэпа, для того, чтобы языки были в алфавитном порядке
     public LinkedHashMap<String, String> sortHashMapByValues(
             HashMap<String, String> passedMap) {
         List<String> mapKeys = new ArrayList<>(passedMap.keySet());
@@ -307,59 +313,63 @@ public class TranslateFragment extends Fragment {
         }
         return sortedMap;
     }
-
+    //переводим введенный текст, при этом перед взаимодействием с ui проверяем присоединен ли фрагмент к активности
+    //иначе возможны ошибки
     private void translate() {
-        final String language = loadFromTag() + "-" + loadToTag();
-        final String text = inputText.getText().toString();
-        if (request != null) {
-            request.cancel(true);
-        }
-        request = new AsyncTask<Void, Void, Void>() {
-            String outputString = "";
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                YandexTranslateService yandexTranslateService = ApiFactory.getTranslateService();
-                try {
-                    if (checkInternetConnection()) {
-                        Response<TranslateResponse> response = yandexTranslateService.translate(UrlConstants.API_KEY, language, text).execute();
-                        if (response.code() == 200) {
-                            String[] array = response.body().getText();
-                            if (array.length >= 1) {
-                                outputString = array[0];
+        if (isAdded()) {
+            final String language = loadFromTag() + "-" + loadToTag();
+            final String text = inputText.getText().toString();
+            if (request != null) {
+                request.cancel(true);
+            }
+            request = new AsyncTask<Void, Void, Void>() {
+                String outputString = "";
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    YandexTranslateService yandexTranslateService = ApiFactory.getTranslateService();
+                    try {
+                        if (checkInternetConnection()) {
+                            Response<TranslateResponse> response = yandexTranslateService.translate(UrlConstants.API_KEY, language, text).execute();
+                            if (response.code() == 200) {
+                                String[] array = response.body().getText();
+                                if (array.length >= 1) {
+                                    outputString = array[0];
+                                }
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    if (isAdded()) {
+                        outputText.setText(outputString);
+                        if (!outputString.equals("")) {
+                            tr = new TranslateResults();
+                            tr.setTranslatedFrom(text);
+                            tr.setTranslatedTo(outputString);
+                            tr.setTranslatedLangs(language);
+                            tr.setFaved(false);
+                            bookmark.setImageResource(R.drawable.bookmark_false);
+                            bookmark.setColorFilter(ContextCompat.getColor(getContext(), R.color.inactive_image));
+                            try {
+                                HelperFactory.getHelper().getTranslateResultsDAO().create(tr);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    super.onPostExecute(aVoid);
                 }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                if (isAdded()) {
-                    outputText.setText(outputString);
-                    if (!outputString.equals("")) {
-                        tr = new TranslateResults();
-                        tr.setTranslatedFrom(text);
-                        tr.setTranslatedTo(outputString);
-                        tr.setTranslatedLangs(language);
-                        tr.setFaved(false);
-                        bookmark.setImageResource(R.drawable.bookmark_false);
-                        bookmark.setColorFilter(ContextCompat.getColor(getContext(), R.color.inactive_image));
-                        try {
-                            HelperFactory.getHelper().getTranslateResultsDAO().create(tr);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                super.onPostExecute(aVoid);
-            }
-        }.execute();
+            }.execute();
+        }
     }
-
+    //сохраняем результаты в первый language code, для запроса на перевод
     void saveFromTag(String text) {
         sPref = getActivity().getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
@@ -367,11 +377,13 @@ public class TranslateFragment extends Fragment {
         ed.apply();
     }
 
+    //загружаем результаты для первого language code, для запроса на перевод
     String loadFromTag() {
         sPref = getActivity().getPreferences(MODE_PRIVATE);
         return sPref.getString(LANG_FROM_CODE, "ru");
     }
 
+    //сохраняем результаты в первый language code, для второго запроса на перевод
     void saveToTag(String text) {
         sPref = getActivity().getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
@@ -379,11 +391,12 @@ public class TranslateFragment extends Fragment {
         ed.apply();
     }
 
+    //загружаем результаты для второго language code, для запроса на перевод
     String loadToTag() {
         sPref = getActivity().getPreferences(MODE_PRIVATE);
         return sPref.getString(LANG_TO_CODE, "en");
     }
-
+    //проверка работоспособности интернета, рекомендованная курсом udacity.com для запросов с сетью
     private boolean checkInternetConnection() {
 
         ConnectivityManager connMgr = (ConnectivityManager)

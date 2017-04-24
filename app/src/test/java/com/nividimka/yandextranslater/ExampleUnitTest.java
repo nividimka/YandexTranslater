@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
+        //Здесь могла бы быть ваша рекланма
+        //Тут могло быть много тестов, которые проверяли бы апишки и другие методы, вроде сортированного мэпа, но я хотел спать
+        //Чем больше тестов, тем больше исправлять=)
         assertEquals(4, 2 + 2);
     }
 }

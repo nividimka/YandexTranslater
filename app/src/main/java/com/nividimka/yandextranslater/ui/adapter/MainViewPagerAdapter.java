@@ -9,10 +9,10 @@ import com.nividimka.yandextranslater.ui.fragments.BookmarkFragment;
 import com.nividimka.yandextranslater.ui.fragments.SettingsFragment;
 import com.nividimka.yandextranslater.ui.fragments.TranslateFragment;
 
-
+//Адаптер для прокручивания списков
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    public MainViewPagerAdapter(Activity activity, FragmentManager fm) {
+    public MainViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

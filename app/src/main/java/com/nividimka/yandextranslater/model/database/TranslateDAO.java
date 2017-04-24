@@ -21,11 +21,7 @@ public class TranslateDAO extends BaseDaoImpl<TranslateResults, Integer> {
         return qb.where().like("translated_to", "%"+s+"%").or().like("translated_from", "%"+s+"%").query();
     }
     public List<TranslateResults> getFaveResults(String s) throws SQLException {
-        if(s.equals("")){
-            return  queryForAll();
-        }
         QueryBuilder<TranslateResults, Integer> qb = this.queryBuilder();
-        qb.where().like("translated_to", s).or().like("translated_from", s).and().like("faved", true);
-        return qb.query();
+        return qb.where().like("translated_to", s).or().like("translated_from", s).and().like("faved", true).query();
     }
 }

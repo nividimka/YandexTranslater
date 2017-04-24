@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Alex on 24.04.2017.
  */
-
+//ресайклер потому-что все элементы не помещаются на экране и использовать его целесообразней чем листвью
 public class TranslateAdapter extends RecyclerView.Adapter<TranslateViewHolder> {
     List<TranslateResults> results;
     Context context;
@@ -26,11 +26,6 @@ public class TranslateAdapter extends RecyclerView.Adapter<TranslateViewHolder> 
         this.results = results;
         this.context = context;
     }
-
-    public void updateResults(List<TranslateResults> results){
-        this.results = results;
-    }
-
     @Override
     public TranslateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -11,7 +11,9 @@ public class AppController extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        //база данных
         HelperFactory.setHelper(getApplicationContext());
+        //испектинг бдшки
         Stetho.initializeWithDefaults(this);
     }
 }
