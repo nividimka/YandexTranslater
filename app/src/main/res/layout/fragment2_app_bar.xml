@@ -13,31 +13,27 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:paddingLeft="50dp"
+        android:paddingStart="50dp"
+        android:paddingRight="50dp"
+        android:paddingEnd="50dp"
         android:minHeight="?attr/actionBarSize"
         android:layout_height="match_parent">
 
         <TextView
             android:layout_weight="1"
-            android:id="@+id/language_from"
+            android:id="@+id/history"
             android:layout_width="0dp"
             android:gravity="center"
+            android:text="История"
             android:layout_height="match_parent"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
-        <ImageView
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:id="@+id/swap"
-            android:src="@drawable/swap"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
         <TextView
             android:layout_weight="1"
-            android:id="@+id/language_to"
+            android:id="@+id/favorite"
             android:layout_width="0dp"
+            android:text="Избранное"
             android:gravity="center"
             android:layout_height="match_parent"
             android:textColor="@android:color/black"

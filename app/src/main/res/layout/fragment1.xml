@@ -3,43 +3,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/fragment1_app_bar"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="@drawable/text_input">
 
-        <EditText
-            android:id="@+id/input_text"
+    <include layout="@layout/fragment1_app_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:padding="5dp"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/input_text"
-            android:padding="5dp"
-            android:background="@android:color/transparent"
-            android:id="@+id/clear_text"
-            android:src="@drawable/clear_text"
-            android:tint="#858e98" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/text_input">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:src="@drawable/bookmark_false"
+                    android:tint="@color/inactive_image"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/bookmark"
+                    />
+                <EditText
+                    android:layout_toLeftOf="@id/bookmark"
+                    android:layout_toStartOf="@id/bookmark"
+                    android:id="@+id/input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:padding="5dp"
+                    android:scrollbars="vertical" />
+
+                <ImageButton
+                    android:id="@+id/clear_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/input_text"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    android:src="@drawable/clear_text"
+                    android:tint="@color/inactive_image" />
+            </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/output_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:gravity="top"
-        android:lines="4"
-        android:padding="5dp"
-        android:scrollbars="vertical" />
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/output_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_margin="15dp"
+                android:textSize="18sp"
+                android:gravity="top"
+                android:lines="4"
+                android:padding="5dp"
+                android:scrollbars="vertical" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

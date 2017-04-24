@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageButton
+        android:background="@android:color/transparent"
+        android:id="@+id/bookmark"
+        android:src="@drawable/bookmark_false"
+        android:tint="@color/inactive_image"
+        android:padding="5dp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/language"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="5dp"
+        android:textAllCaps="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_toRightOf="@id/bookmark"
+        android:layout_toEndOf="@id/bookmark"
+        android:layout_toLeftOf="@id/language"
+        android:layout_toStartOf="@id/language"
+        android:id="@+id/text_from"
+        android:text="blablabla"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_below="@id/text_from"
+        android:layout_toRightOf="@id/bookmark"
+        android:layout_toEndOf="@id/bookmark"
+        android:layout_toLeftOf="@id/language"
+        android:layout_toStartOf="@id/language"
+        android:id="@+id/text_to"
+        android:padding="5dp"
+        android:text="blablabla"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

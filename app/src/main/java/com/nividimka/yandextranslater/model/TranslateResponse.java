@@ -10,7 +10,7 @@ public class TranslateResponse {
     @SerializedName("lang")
     public String language;
     @SerializedName("text")
-    public String text;
+    public String[] text;
 
     public int getCode() {
         return code;
@@ -28,11 +28,11 @@ public class TranslateResponse {
         this.language = language;
     }
 
-    public String getText() {
+    public String[] getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(String[] text) {
         this.text = text;
     }
 }

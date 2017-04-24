@@ -8,10 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.nividimka.yandextranslater.R;
 import com.nividimka.yandextranslater.ui.adapter.MainViewPagerAdapter;
-import com.nividimka.yandextranslater.ui.fragments.BookmarkFragment;
 import com.nividimka.yandextranslater.ui.fragments.SettingsFragment;
 
-public class MainActivity extends AppCompatActivity implements BookmarkFragment.OnFragmentInteractionListener,SettingsFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

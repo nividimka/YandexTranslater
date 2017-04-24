@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="app_bar_color">#FFDC61</color>
     <color name="tab_layout_indicator_color">#FFDD60</color>
+    <color name="inactive_image">#858e98</color>
 </resources>
