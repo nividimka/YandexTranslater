@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nividimka.yandextranslater.R;
+import com.nividimka.yandextranslater.model.HelperFactory;
 import com.nividimka.yandextranslater.model.database.TranslateResults;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -20,9 +22,13 @@ public class TranslateAdapter extends RecyclerView.Adapter<TranslateViewHolder> 
     List<TranslateResults> results;
     Context context;
 
-    public TranslateAdapter(Context context,List<TranslateResults> results) {
+    public TranslateAdapter(Context context, List<TranslateResults> results) {
         this.results = results;
         this.context = context;
+    }
+
+    public void updateResults(List<TranslateResults> results){
+        this.results = results;
     }
 
     @Override
@@ -33,18 +39,42 @@ public class TranslateAdapter extends RecyclerView.Adapter<TranslateViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(TranslateViewHolder holder, int position) {
-        TranslateResults currentItem = results.get(position);
+    public void onBindViewHolder(final TranslateViewHolder holder, int position) {
+        final TranslateResults currentItem = results.get(position);
         holder.textFrom.setText(currentItem.getTranslatedFrom());
         holder.textTo.setText(currentItem.getTranslatedTo());
         holder.language.setText(currentItem.getTranslatedLangs());
         if (currentItem.isFaved()) {
             holder.bookmark.setImageResource(R.drawable.bookmark_true);
-            holder.bookmark.setColorFilter(ContextCompat.getColor(context,android.R.color.black));
+            holder.bookmark.setColorFilter(ContextCompat.getColor(context, android.R.color.black));
         } else {
             holder.bookmark.setImageResource(R.drawable.bookmark_false);
             holder.bookmark.setColorFilter(ContextCompat.getColor(context, R.color.inactive_image));
         }
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentItem.isFaved()) {
+                    currentItem.setFaved(false);
+                    try {
+                        HelperFactory.getHelper().getTranslateResultsDAO().update(currentItem);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    holder.bookmark.setImageResource(R.drawable.bookmark_false);
+                    holder.bookmark.setColorFilter(ContextCompat.getColor(context, R.color.inactive_image));
+                } else {
+                    currentItem.setFaved(true);
+                    try {
+                        HelperFactory.getHelper().getTranslateResultsDAO().update(currentItem);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    holder.bookmark.setImageResource(R.drawable.bookmark_true);
+                    holder.bookmark.setColorFilter(ContextCompat.getColor(context, android.R.color.black));
+                }
+            }
+        });
     }
 
     @Override

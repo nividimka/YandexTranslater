@@ -33,7 +33,7 @@ public class ApiFactory {
         return new Retrofit.Builder()
                 .baseUrl(UrlConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-//                .client(CLIENT)
+                .client(CLIENT)
                 .build();
     }
 }

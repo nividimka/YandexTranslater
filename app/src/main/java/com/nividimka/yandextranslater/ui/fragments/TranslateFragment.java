@@ -66,7 +66,7 @@ public class TranslateFragment extends Fragment {
         // Required empty public constructor
     }
 
-    AsyncTask<Void,Void,Void> request;
+    AsyncTask<Void, Void, Void> request;
     EditText inputText;
     TextView outputText;
 
@@ -175,7 +175,7 @@ public class TranslateFragment extends Fragment {
         bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tr!=null){
+                if (tr != null) {
                     if (tr.isFaved()) {
                         tr.setFaved(false);
                         try {
@@ -184,7 +184,7 @@ public class TranslateFragment extends Fragment {
                             e.printStackTrace();
                         }
                         bookmark.setImageResource(R.drawable.bookmark_false);
-                        bookmark.setColorFilter(ContextCompat.getColor(getContext(),R.color.inactive_image));
+                        bookmark.setColorFilter(ContextCompat.getColor(getContext(), R.color.inactive_image));
                     } else {
                         tr.setFaved(true);
                         try {
@@ -193,7 +193,7 @@ public class TranslateFragment extends Fragment {
                             e.printStackTrace();
                         }
                         bookmark.setImageResource(R.drawable.bookmark_true);
-                        bookmark.setColorFilter(ContextCompat.getColor(getContext(),android.R.color.black));
+                        bookmark.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.black));
                     }
                 }
             }
@@ -255,8 +255,6 @@ public class TranslateFragment extends Fragment {
                                 getActivity().runOnUiThread(new Runnable() {
 
                                     public void run() {
-//                                        page = 1;
-//                                        cases.clear();
                                         translate();
                                     }
                                 });
@@ -309,14 +307,15 @@ public class TranslateFragment extends Fragment {
         }
         return sortedMap;
     }
+
     private void translate() {
         final String language = loadFromTag() + "-" + loadToTag();
         final String text = inputText.getText().toString();
-        if(request!=null){
+        if (request != null) {
             request.cancel(true);
         }
         request = new AsyncTask<Void, Void, Void>() {
-            String outputString="";
+            String outputString = "";
 
             @Override
             protected Void doInBackground(Void... voids) {
@@ -326,9 +325,9 @@ public class TranslateFragment extends Fragment {
                         Response<TranslateResponse> response = yandexTranslateService.translate(UrlConstants.API_KEY, language, text).execute();
                         if (response.code() == 200) {
                             String[] array = response.body().getText();
-                                if(array.length>=1) {
-                                    outputString = array[0];
-                                }
+                            if (array.length >= 1) {
+                                outputString = array[0];
+                            }
                         }
                     }
                 } catch (IOException e) {
@@ -339,19 +338,21 @@ public class TranslateFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                outputText.setText(outputString);
-                if (!outputString.equals("")) {
-                    tr = new TranslateResults();
-                    tr.setTranslatedFrom(text);
-                    tr.setTranslatedTo(outputString);
-                    tr.setTranslatedLangs(language);
-                    tr.setFaved(false);
-                    bookmark.setImageResource(R.drawable.bookmark_false);
-                    bookmark.setColorFilter(ContextCompat.getColor(getContext(),R.color.inactive_image));
-                    try {
-                        HelperFactory.getHelper().getTranslateResultsDAO().create(tr);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                if (isAdded()) {
+                    outputText.setText(outputString);
+                    if (!outputString.equals("")) {
+                        tr = new TranslateResults();
+                        tr.setTranslatedFrom(text);
+                        tr.setTranslatedTo(outputString);
+                        tr.setTranslatedLangs(language);
+                        tr.setFaved(false);
+                        bookmark.setImageResource(R.drawable.bookmark_false);
+                        bookmark.setColorFilter(ContextCompat.getColor(getContext(), R.color.inactive_image));
+                        try {
+                            HelperFactory.getHelper().getTranslateResultsDAO().create(tr);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 super.onPostExecute(aVoid);

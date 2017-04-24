@@ -26,7 +26,7 @@
         android:layout_toLeftOf="@id/language"
         android:layout_toStartOf="@id/language"
         android:id="@+id/text_from"
-        android:text="blablabla"
+        android:textColor="@android:color/black"
         android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -38,7 +38,6 @@
         android:layout_toStartOf="@id/language"
         android:id="@+id/text_to"
         android:padding="5dp"
-        android:text="blablabla"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>
